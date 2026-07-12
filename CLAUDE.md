@@ -28,7 +28,12 @@ serve as an extension to the `upagent` core.
   personal `lm/` prefix, since this repo may have other contributors one
   day). Large implementation work goes through branches even though this
   repo allows direct commits to `main`.
-- Stack: TBD. Ecosystem default is Next.js + TypeScript; local file
-  operations will likely need a native/CLI component.
+- Stack: Next.js 16 + TypeScript + Prisma 7/SQLite + vitest (pnpm).
+  Layering is strict: `src/core` is pure TS (scanner, heuristics, planner,
+  executor) and must not import from `next`/`react`; `src/app` holds UI and
+  thin API routes. The localhost HTTP API is updiscord's integration
+  contract — keep it stable.
+- Run: `pnpm install && pnpm run db:push && pnpm run dev`. Tests:
+  `pnpm test`. Fixture playground: `npx tsx scripts/make-fixture.ts`.
 - Plans live in the workspace-level `1_CLAUDE_WORKFLOW/plans/cleanup/`,
   not in this repo.
