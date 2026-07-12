@@ -2,10 +2,14 @@
 /scans/
 /backups/
 
+# app data (SQLite DB) — private, never commit
+/data/
+
 # node
 node_modules/
 .next/
 dist/
+/src/generated/
 
 # env / secrets
 .env

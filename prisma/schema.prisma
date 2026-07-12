@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Scan {
+  id          String     @id @default(cuid())
+  targetPath  String
+  status      String     @default("running") // running | completed | failed
+  fileCount   Int        @default(0)
+  totalBytes  BigInt     @default(0)
+  skipped     String     @default("[]") // JSON string[] of unreadable paths
+  error       String?
+  createdAt   DateTime   @default(now())
+  completedAt DateTime?
+  findings    Finding[]
+  proposals   Proposal[]
+}
+
+model Finding {
+  id      String @id @default(cuid())
+  scanId  String
+  scan    Scan   @relation(fields: [scanId], references: [id])
+  kind    String // duplicate_set | huge_file | stale_file | type_mess | empty_dir
+  payload String // JSON, shape depends on kind
+}
+
+model Proposal {
+  id         String      @id @default(cuid())
+  scanId     String
+  scan       Scan        @relation(fields: [scanId], references: [id])
+  kind       String // move | archive | trash
+  sourcePath String
+  destPath   String? // null for trash (backup destination computed at apply time)
+  rationale  String
+  origin     String // heuristic | llm
+  status     String      @default("proposed") // proposed|approved|rejected|applied|undone|failed
+  createdAt  DateTime    @default(now())
+  operations Operation[]
+}
+
+model Operation {
+  id          String    @id @default(cuid())
+  proposalId  String
+  proposal    Proposal  @relation(fields: [proposalId], references: [id])
+  batchId     String
+  action      String // move | trash
+  sourcePath  String
+  destPath    String
+  status      String    @default("pending") // pending | done | failed | undone
+  error       String?
+  createdAt   DateTime  @default(now())
+  completedAt DateTime?
+}
