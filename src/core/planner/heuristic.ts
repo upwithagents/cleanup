@@ -2,10 +2,7 @@ import path from "node:path";
 import type { FindingDraft, ProposalDraft } from "@/core/types";
 
 /** Deterministic proposals derived straight from findings — no LLM. */
-export function heuristicProposals(
-  findings: FindingDraft[],
-  _root: string,
-): ProposalDraft[] {
+export function heuristicProposals(findings: FindingDraft[]): ProposalDraft[] {
   const proposals: ProposalDraft[] = [];
 
   for (const finding of findings) {

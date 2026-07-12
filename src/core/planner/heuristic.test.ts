@@ -16,7 +16,7 @@ describe("heuristicProposals", () => {
         },
       },
     ];
-    const proposals = heuristicProposals(findings, ROOT);
+    const proposals = heuristicProposals(findings);
     expect(proposals).toHaveLength(2);
     expect(proposals.map((p) => p.sourcePath)).toEqual([
       `${ROOT}/old.txt`,
@@ -34,7 +34,7 @@ describe("heuristicProposals", () => {
     const findings: FindingDraft[] = [
       { kind: "empty_dir", payload: { paths: [`${ROOT}/empty`] } },
     ];
-    const proposals = heuristicProposals(findings, ROOT);
+    const proposals = heuristicProposals(findings);
     expect(proposals).toEqual([
       {
         kind: "trash",
@@ -52,6 +52,6 @@ describe("heuristicProposals", () => {
       { kind: "stale_file", payload: { files: [] } },
       { kind: "type_mess", payload: { category: "images", paths: [] } },
     ];
-    expect(heuristicProposals(findings, ROOT)).toEqual([]);
+    expect(heuristicProposals(findings)).toEqual([]);
   });
 });

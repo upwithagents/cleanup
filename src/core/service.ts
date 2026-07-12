@@ -128,7 +128,7 @@ export async function generatePlan(
   // regenerate: undecided proposals are replaced, decided ones are kept
   await db.proposal.deleteMany({ where: { scanId, status: "proposed" } });
 
-  const heuristics = heuristicProposals(findings, scan.targetPath);
+  const heuristics = heuristicProposals(findings);
   const result: PlanResult = { heuristic: 0, llm: 0, dropped: 0 };
 
   const llm = complete ?? (process.env.ANTHROPIC_API_KEY ? anthropicComplete : null);
