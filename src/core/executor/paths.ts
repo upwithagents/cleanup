@@ -13,7 +13,7 @@ export function resolveWithinRoot(root: string, p: string): string | null {
 }
 
 export function backupsBaseDir(): string {
-  return process.env.CLEANUP_BACKUPS_DIR || path.resolve("backups");
+  return process.env.CLEANUP_BACKUPS_DIR || path.join(process.cwd(), "backups");
 }
 
 export function backupsDirFor(scanId: string): string {

@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { FileEntry, WalkResult } from "@/core/types";
+import type { WalkResult } from "@/core/types";
 
 const IGNORED_DIR_NAMES = new Set([".git", "node_modules", ".Trash"]);
 
