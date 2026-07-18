@@ -33,7 +33,13 @@ h2 {
   margin-top: 2rem;
 }
 
-a {
+/* Scoped to .container — an unscoped bare `a` rule here would win over the
+   shared PortalHeader's Tailwind utility classes regardless of specificity,
+   since this app's own CSS is unlayered and Tailwind's utilities are inside
+   `@layer utilities` (unlayered styles always beat layered ones in the CSS
+   cascade, independent of selector specificity). This broke the header
+   logo's two-tone color before this fix. */
+.container a {
   color: var(--color-accent);
 }
 
@@ -51,7 +57,10 @@ td {
   vertical-align: top;
 }
 
-button {
+/* Scoped to .container (this app's own content wrapper, a sibling of the
+   shared PortalHeader) so these rules never leak into the header's own
+   buttons, which rely on being unstyled by default at rest. */
+.container button {
   font: inherit;
   padding: 0.35rem 0.9rem;
   border: 1px solid var(--border);
@@ -60,26 +69,26 @@ button {
   cursor: pointer;
 }
 
-button:hover:not(:disabled) {
+.container button:hover:not(:disabled) {
   background: color-mix(in srgb, var(--muted) 70%, var(--muted-foreground));
 }
 
-button:disabled {
+.container button:disabled {
   opacity: 0.5;
   cursor: default;
 }
 
-button.primary {
+.container button.primary {
   background: var(--color-accent);
   border-color: var(--color-accent);
   color: var(--color-accent-foreground);
 }
 
-button.primary:hover:not(:disabled) {
+.container button.primary:hover:not(:disabled) {
   background: var(--color-accent-hover);
 }
 
-button.danger {
+.container button.danger {
   background: var(--color-danger);
   border-color: var(--color-danger);
   color: #fff;
