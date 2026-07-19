@@ -1,6 +1,24 @@
 import type { Metadata } from "next";
+import { Archivo, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { PortalChrome } from "./components/PortalChrome";
+
+const archivo = Archivo({
+  variable: "--app-font-display",
+  subsets: ["latin"],
+  weight: ["600"],
+});
+
+const inter = Inter({
+  variable: "--app-font-sans",
+  subsets: ["latin"],
+});
+
+const plexMono = IBM_Plex_Mono({
+  variable: "--app-font-mono",
+  weight: ["400", "500"],
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "CleanUp",
@@ -13,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${archivo.variable} ${inter.variable} ${plexMono.variable}`}>
       <body>
         <PortalChrome />
         <main className="container">{children}</main>
