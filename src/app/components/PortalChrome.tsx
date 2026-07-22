@@ -9,7 +9,7 @@ interface PortalContext {
   apps: PortalHeaderApp[];
 }
 
-export function PortalChrome() {
+export function PortalChrome({ children }: { children: React.ReactNode }) {
   const [context, setContext] = useState<PortalContext | null>(null);
 
   useEffect(() => {
@@ -19,18 +19,23 @@ export function PortalChrome() {
       .catch(() => setContext(null));
   }, []);
 
+  // Hold the app's own content back behind the progress bar too, not just
+  // the header - otherwise it renders immediately while the header pops in
+  // later once the fetch resolves, shoving everything else down the page.
   if (!context) return <AscentProgress />;
 
   return (
-    <div data-portal-chrome>
-      <AscentProgress />
-      <PortalHeader
-        currentSlug="cleanup"
-        apps={context.apps}
-        userName={context.userName}
-        userEmail={context.userEmail}
-        logoutSlot={<a href="/api/auth/signout">Log out</a>}
-      />
-    </div>
+    <>
+      <div data-portal-chrome>
+        <PortalHeader
+          currentSlug="cleanup"
+          apps={context.apps}
+          userName={context.userName}
+          userEmail={context.userEmail}
+          logoutSlot={<a href="/api/auth/signout">Log out</a>}
+        />
+      </div>
+      {children}
+    </>
   );
 }

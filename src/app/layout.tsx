@@ -41,8 +41,9 @@ export default function RootLayout({
         <ThemeScript />
       </head>
       <body>
-        <PortalChrome />
-        <main className="container">{children}</main>
+        <PortalChrome>
+          <main className="container">{children}</main>
+        </PortalChrome>
       </body>
     </html>
   );
