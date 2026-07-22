@@ -15,7 +15,6 @@ export default async function Home() {
   const scans = await listScans();
   return (
     <>
-      <h1>CleanUp</h1>
       <p className="muted">
         Scan a folder, review the proposed cleanup, apply it with backups —
         and undo if you change your mind.
